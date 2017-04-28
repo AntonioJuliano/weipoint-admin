@@ -1,0 +1,52 @@
+{
+  "name": "weipoint-admin",
+  "version": "1.0.0",
+  "description": "admin server for weipoint app",
+  "main": "server.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/server.js --ignore client/",
+    "prod": "NODE_ENV=production node server/server.js",
+    "staging": "NODE_ENV=staging node server/server.js",
+    "client": "node start-client.js",
+    "test": "mocha test",
+    "prod_install": "npm install --production && cd client && npm install && cd ..",
+    "prod_build": "cd client && npm run build && rm -rf node_modules scripts src && cd ..",
+    "lint": "eslint --ext .js --ignore-path .gitignore server/**"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioJuliano/weipoint-admin.git"
+  },
+  "keywords": [
+    "ethereum"
+  ],
+  "author": "Antonio Juliano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntonioJuliano/weipoint-admin/issues"
+  },
+  "homepage": "https://github.com/AntonioJuliano/weipoint-admin#readme",
+  "dependencies": {
+    "bluebird": "latest",
+    "body-parser": "^1.15.2",
+    "dotenv": "^4.0.0",
+    "elasticsearch": "^13.0.0-rc2",
+    "express": "^4.14.0",
+    "express-validator": "^3.1.2",
+    "mongoosastic": "^4.3.0",
+    "mongoose": "^4.7.7",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.1",
+    "concurrently": "^3.1.0",
+    "eslint": "^3.18.0",
+    "mocha": "^3.2.0",
+    "npm": "^4.1.2",
+    "pre-commit": "^1.2.2"
+  }
+}
