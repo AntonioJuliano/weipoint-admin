@@ -50,6 +50,7 @@ app.use(expressValidator({
         && value.every(v => typeof v === 'string');
     },
     isString: value => typeof value === 'string',
+    isOptionalString: v => v === undefined || typeof v === 'string',
     isBoolean: value => typeof value === 'boolean',
     optionalPositiveInteger: v => !v || (Number.isInteger(parseInt(v)) && v >= 0)
   }

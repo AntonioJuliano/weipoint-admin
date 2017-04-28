@@ -38,34 +38,14 @@ class Footer extends React.Component {
         <Col xs={10} style={{ marginLeft: 'auto', marginRight: 'auto', minWidth: 360 }}>
           <Divider style={{ margin: 'auto', width: '100%' }} />
           <div style={{ width: '100%', display: 'flex', marginTop: 16, marginRight: 0, justifyContent: 'flex-end' }}>
-            <div style={{ width: 'auto', margin: 'auto', marginRight: 0, marginLeft: 'auto' }}>
+            <div style={{ width: 'auto', margin: 'auto', marginRight: 10, marginLeft: 'auto' }}>
               <Link
-                to='/review_metadata'
+                to='/'
                 style={linkStyles[0]}
                 onMouseEnter={ () => this.setState({ hovered: 0 })}
                 onMouseLeave={ () => this.setState({ hovered: null })}
               >
                 {'Review Metadata'}
-              </Link>
-            </div>
-            <div style={{ width: 'auto', margin: 'auto', marginLeft: 20, marginRight: 20 }}>
-              <Link
-                to='/privacy'
-                style={linkStyles[1]}
-                onMouseEnter={ () => this.setState({ hovered: 1 })}
-                onMouseLeave={ () => this.setState({ hovered: null })}
-              >
-                {'Privacy Policy'}
-              </Link>
-            </div>
-            <div style={{ width: 'auto', margin: 'auto', marginLeft: 0, marginRight: 10 }}>
-              <Link
-                to='/terms'
-                style={linkStyles[2]}
-                onMouseEnter={ () => this.setState({ hovered: 2 })}
-                onMouseLeave={ () => this.setState({ hovered: null })}
-              >
-                {'Terms of Service'}
               </Link>
             </div>
           </div>

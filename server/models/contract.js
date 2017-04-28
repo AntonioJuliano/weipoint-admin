@@ -15,7 +15,7 @@ const MAX_TAGS = 30;
 // TODO validate no duplicate tags
 const tagSchema = new Schema({
   tag: { type: String, es_indexed: 'true', es_type: 'text' },
-  approved: { type: Boolean, es_index: 'true', es_type: 'boolean' }
+  approved: { type: Boolean, es_index: 'true', es_type: 'boolean', default: false }
 });
 
 const contractSchema = new Schema({
@@ -64,6 +64,14 @@ const contractSchema = new Schema({
     index: true,
     default: false
   }
+});
+
+contractSchema.pre('save', function(next) {
+  /* eslint-disable no-invalid-this */
+  this.pendingMetadata = (this.pendingLinks && this.pendingLinks.length > 0)
+    || (this.pendingDescriptions && this.pendingDescriptions.length > 0)
+    || (this.tags && this.tags.filter( t => !t.approved ).length > 0);
+  next();
 });
 
 elasticsearch.plugin(contractSchema, esVersionNumber, 'contract');

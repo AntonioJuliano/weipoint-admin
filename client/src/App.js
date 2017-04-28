@@ -20,7 +20,7 @@ class App extends Component {
         <div className='App'
           style={{
             backgroundColor: '#efefef',
-            minWidth: '100%',
+            minWidth: 700,
             width: '100%',
             minHeight: '100vh',
             height: '100%',

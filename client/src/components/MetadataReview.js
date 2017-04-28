@@ -2,6 +2,8 @@ import React from 'react';
 import isEqual from 'lodash.isequal';
 import { Row, Col } from 'react-flexbox-grid';
 import Reviewable from './Reviewable';
+import CheckCircleIcon from 'react-material-icons/icons/action/check-circle';
+import { green500 } from 'material-ui/styles/colors';
 
 class MetadataReview extends React.Component {
   constructor(props) {
@@ -50,7 +52,10 @@ class MetadataReview extends React.Component {
     const newReviewables = this.state.reviewables.filter( r => r.address !== address);
 
     if (newReviewables.length === 0) {
-      this.setState({ reviewables: [], completed: true });
+      this.setState({ reviewables: [] });
+
+      // This is on a delay because the get query races with the most recent review update
+      setTimeout(this.fetchData, 1000);
     } else {
       this.setState({ reviewables: newReviewables });
     }
@@ -69,9 +74,13 @@ class MetadataReview extends React.Component {
 
   render() {
     return (
-      <Row center='xs' style={{ marginTop: 20}}>
+      <Row center='xs' style={{ marginTop: 20, maxWidth: '100%' }}>
         <Col xs={11} sm={10} md={9} lg={8}>
           {this.getReviewableElements()}
+          {
+            this.state.completed &&
+            <CheckCircleIcon style={{ width: 80, height: 80, marginTop: 250 }} color={green500} />
+          }
         </Col>
       </Row>
     );

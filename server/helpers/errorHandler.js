@@ -26,7 +26,7 @@ function handle(error, response) {
       code: errors.errorCodes.invalidArguments
     });
   } else {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       console.log(error);
     }
     logger.error({

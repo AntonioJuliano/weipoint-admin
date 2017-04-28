@@ -32,4 +32,60 @@ router.get('/unapproved', async(request, response) => {
   }
 });
 
+router.post('/review', async(request, response) => {
+  try {
+    request.check({
+      'address': {
+        in: 'body',
+        isString: true,
+        errorMessage: 'Invalid Address'
+      },
+      'reviewableType': {
+        in: 'body',
+        isString: true,
+        errorMessage: 'Invalid reviewableType'
+      },
+      'metadataType': {
+        in: 'body',
+        isOptionalString: true,
+        errorMessage: 'Invalid metadataType'
+      },
+      'value': {
+        in: 'body',
+        isOptionalString: true,
+        errorMessage: 'Invalid value'
+      },
+      'accept': {
+        in: 'body',
+        isBoolean: true,
+        errorMessage: 'Invalid accept'
+      }
+    });
+    const validationResult = await request.getValidationResult();
+    if (!validationResult.isEmpty()) {
+      throw new errors.RequestError(validationResult.array());
+    }
+
+    if (request.body.reviewableType === 'contract') {
+      const contract = await contractService.getContract(request.body.address);
+      if (!contract) {
+        throw new errors.ClientError('Contract not found');
+      }
+
+      await contractService.applyReviewDecision(
+        contract,
+        request.body.accept,
+        request.body.metadataType,
+        request.body.value
+      )
+
+      return response.status(200);
+    } else {
+      throw new errors.ClientError('Invalid reviewable type');
+    }
+  } catch (e) {
+    errorHandler.handle(e, response);
+  }
+});
+
 module.exports = router;
