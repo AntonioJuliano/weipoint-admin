@@ -14,8 +14,24 @@ const MAX_TAGS = 30;
 
 // TODO validate no duplicate tags
 const tagSchema = new Schema({
-  tag: { type: String, es_indexed: 'true', es_type: 'text' },
+  tag: { type: String, es_indexed: true, es_type: 'text' },
   approved: { type: Boolean, es_index: 'true', es_type: 'boolean', default: false }
+});
+
+const scoreSchema = new Schema({
+  value: {
+    type: Number,
+    default: 0,
+    es_indexed: true
+  },
+  lastRescoreId: {
+    type: Number,
+    default: 0
+  },
+  version: {
+    type: Number,
+    default: 1
+  }
 });
 
 const contractSchema = new Schema({
@@ -63,6 +79,17 @@ const contractSchema = new Schema({
     type: Boolean,
     index: true,
     default: false
+  },
+  score: {
+    type: scoreSchema,
+    es_indexed: true,
+    es_type: 'nested',
+    es_include_in_parent: true,
+    default: {
+      value: 0,
+      lastRescoreId: 0,
+      version: 1
+    }
   }
 });
 
