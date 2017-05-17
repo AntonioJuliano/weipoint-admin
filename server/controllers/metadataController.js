@@ -14,7 +14,7 @@ router.get('/unapproved', async(request, response) => {
 
     const unapprovedData = contracts.map( c => {
       return {
-        type: 'contract',
+        type: 'address',
         address: c.address,
         unapprovedData: {
           tags: c.tags.filter( t => !t.approved ).map( t => t.tag ),
