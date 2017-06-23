@@ -4,15 +4,12 @@
   "description": "admin server for weipoint app",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon server/server.js --ignore client/",
-    "prod": "NODE_ENV=production node server/server.js",
-    "staging": "NODE_ENV=staging node server/server.js",
-    "client": "node start-client.js",
+    "start": "nodemon src/server.js",
+    "prod": "NODE_ENV=production node src/server.js",
+    "staging": "NODE_ENV=staging node src/server.js",
     "test": "mocha test",
-    "prod_install": "npm install --production && cd client && npm install && cd ..",
-    "prod_build": "cd client && npm run build && rm -rf node_modules scripts src && cd ..",
-    "lint": "eslint --ext .js --ignore-path .gitignore server/**"
+    "prod_install": "npm install --loglevel warn --production",
+    "lint": "eslint --ext .js --ignore-path .gitignore src/**"
   },
   "pre-commit": [
     "lint"

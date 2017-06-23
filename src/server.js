@@ -8,8 +8,9 @@ const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 const errors = require('./helpers/errors');
 const logger = require('./helpers/logger');
-const path = require('path');
 const errorHandler = require('./helpers/errorHandler');
+const bugsnag = require('./helpers/bugsnag');
+
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error({
@@ -18,7 +19,11 @@ process.on('unhandledRejection', (reason, p) => {
     promise: p,
     error: reason
   });
+  bugsnag.notify(reason);
 });
+
+// This needs to be the first middleware
+app.use(bugsnag.requestHandler);
 
 app.get('/health', function(req, res) {
   res.status(200);
@@ -59,12 +64,6 @@ app.use(expressValidator({
 app.use(require('./middlewares/requestLogger'));
 
 app.use('/api/v1', require('./controllers/index'));
-
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
 
 // Error handler
 app.use((error, request, response, _next) => {
