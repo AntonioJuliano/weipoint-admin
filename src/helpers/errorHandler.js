@@ -2,6 +2,7 @@
 
 const errors = require('./errors');
 const logger = require('./logger');
+const bugsnag = require('./bugsnag');
 
 function handle(error, response) {
   if (error instanceof errors.ClientError) {
@@ -11,6 +12,7 @@ function handle(error, response) {
       errorMessage: error.message,
       errorCode: error.code
     });
+    bugsnag.notify(error);
     response.status(400).json({
       message: error.message,
       code: error.code
@@ -34,6 +36,7 @@ function handle(error, response) {
       message: 'unhandled Error thrown',
       error: error
     });
+    bugsnag.notify(error);
     response.status(500).json({
       error: 'Server Error'
     });
