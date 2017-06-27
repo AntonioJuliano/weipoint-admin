@@ -32,7 +32,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/health', function(req, res) {
-  res.status(200);
+  res.status(200).json({ ok: true });
 });
 
 app.use(bodyParser.json());
