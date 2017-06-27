@@ -10,7 +10,7 @@ const errors = require('./helpers/errors');
 const logger = require('./helpers/logger');
 const errorHandler = require('./helpers/errorHandler');
 const bugsnag = require('./helpers/bugsnag');
-
+const cors = require('cors');
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error({
@@ -24,6 +24,12 @@ process.on('unhandledRejection', (reason, p) => {
 
 // This needs to be the first middleware
 app.use(bugsnag.requestHandler);
+
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN,
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
 
 app.get('/health', function(req, res) {
   res.status(200);
