@@ -66,7 +66,7 @@ router.post('/review', async(request, response) => {
       throw new errors.RequestError(validationResult.array());
     }
 
-    if (request.body.reviewableType === 'contract') {
+    if (request.body.reviewableType === 'address') {
       const contract = await contractService.getContract(request.body.address);
       if (!contract) {
         throw new errors.ClientError('Contract not found');
