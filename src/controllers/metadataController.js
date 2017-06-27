@@ -81,7 +81,7 @@ router.post('/review', async(request, response) => {
 
       return response.status(200);
     } else {
-      throw new errors.ClientError('Invalid reviewable type');
+      throw new errors.ClientError('Invalid reviewable type: ' + request.body.reviewableType);
     }
   } catch (e) {
     errorHandler.handle(e, response);
