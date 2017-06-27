@@ -35,16 +35,6 @@ app.get('/health', function(req, res) {
   res.status(200);
 });
 
-app.use(function(req, res, next) {
-  if(process.env.NODE_ENV === 'production'
-    && !req.secure
-    && req.get('X-Forwarded-Proto') !== 'https') {
-    res.redirect('https://' + req.get('Host') + req.url);
-  } else {
-    return next();
-  }
-});
-
 app.use(bodyParser.json());
 app.use(function(error, request, response, _next) {
   response.status(400).json({
