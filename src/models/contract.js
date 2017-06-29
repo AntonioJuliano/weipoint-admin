@@ -67,6 +67,9 @@ const contractSchema = new Schema({
   pendingDescriptions: {
     type: [String]
   },
+  pendingNames: {
+    type: [String]
+  },
   link: {
     type: String,
     es_indexed: true,
@@ -90,6 +93,11 @@ const contractSchema = new Schema({
       lastRescoreId: 0,
       version: 1
     }
+  },
+  isToken: {
+    type: Boolean,
+    index: true,
+    default: false
   }
 });
 
@@ -97,6 +105,7 @@ contractSchema.pre('save', function(next) {
   /* eslint-disable no-invalid-this */
   this.pendingMetadata = (this.pendingLinks && this.pendingLinks.length > 0)
     || (this.pendingDescriptions && this.pendingDescriptions.length > 0)
+    || (this.pendingNames && this.pendingNames.length > 0)
     || (this.tags && this.tags.filter( t => !t.approved ).length > 0);
   next();
 });

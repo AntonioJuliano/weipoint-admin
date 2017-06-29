@@ -19,7 +19,8 @@ router.get('/unapproved', async(request, response) => {
         unapprovedData: {
           tags: c.tags.filter( t => !t.approved ).map( t => t.tag ),
           links: c.pendingLinks,
-          descriptions: c.pendingDescriptions
+          descriptions: c.pendingDescriptions,
+          names: c.pendingNames
         }
       };
     });

@@ -64,6 +64,21 @@ async function applyReviewDecision(contract, accept, metadataType, value) {
     contract.pendingDescriptions.splice(idx, 1);
   }
 
+  // Names
+  if (matchAllTypes && contract.pendingNames[0]) {
+    if (accept) {
+      contract.name = contract.pendingNames[0];
+    }
+    contract.pendingNames = [];
+  } else if (metadataType === 'names') {
+    if (accept) {
+      contract.name = value;
+    }
+    const idx = contract.pendingNames.indexOf(
+      contract.pendingNames.find( d => d === value ));
+    contract.pendingNames.splice(idx, 1);
+  }
+
   await contract.save();
 
   return contract;
